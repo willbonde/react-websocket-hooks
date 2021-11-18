@@ -1,2 +1,2 @@
-# react-websockets
+# react-websocket-hooks
 React WebSocket Hooks
