@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 /**
  *
@@ -12,15 +12,15 @@ import { useState, useEffect } from 'react'
  * @returns {unknown}
  */
 export default function useWebSocket(url, options) {
-  let socket = null;
+  const socket = useRef(null);
 
   //State
+  const [message, setMessage] = useState("lol default");
   const [connected, setConnected] = useState(false);
-  const [message, setMessage] = useState(null);
 
   /**
    * @returns {boolean} True when the WebSocket is connected.
-   */
+   *//*
   function isConnected() {
     if (socket !== null) {
       return socket.readyState === WebSocket.OPEN;
@@ -32,7 +32,7 @@ export default function useWebSocket(url, options) {
   function connect() {
     if (isConnected() === false) {
       //TODO: Add support for protocols
-      socket = new WebSocket(url);
+     // socket = new WebSocket(url);
     } else {
       throw new Error('WebSocket is already connected');
     }
@@ -44,24 +44,36 @@ export default function useWebSocket(url, options) {
     }
 
     socket.close(code, reason);
-  }
+  } */
 
   //Events
+  useEffect( () => {
+      socket.current = new WebSocket(url);
+
+      socket.current.onclose = (event) => {
+        setConnected(false);
+      };
+
+      socket.current.onopen = (event) => {
+        setConnected(true);
+      };
+
+      return () => {
+        socket.current.close();
+      };
+  }, []);
+
+
   useEffect(() => {
-    socket.onopen = () => {
-      setConnected(true);
-    };
+    if (socket.current) {
+      socket.current.onmessage = (event) => {
+        if (options.filter === undefined || options.filter(event.data)) {
+          setMessage(event.data);
+        }
+      };
+    }
+  }, []);
 
-    socket.onclose = () => {
-      setConnected(false);
-    };
 
-    socket.onmessage = (event) => {
-      if (options.filter == null || options.filter(event.data)) {
-        setMessage(event.data);
-      }
-    };
-  });
-
-  return [message, isConnected, connect, disconnect];
+  return [message];
 }
