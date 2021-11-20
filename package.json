@@ -7,8 +7,13 @@
     "test": "tests"
   },
   "scripts": {
+    "prebuild": "npm i",
+    "build": "babel src --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/willbonde/react-websocket-hooks.git"
@@ -23,5 +28,13 @@
   "bugs": {
     "url": "https://github.com/willbonde/react-websocket-hooks/issues"
   },
-  "homepage": "https://github.com/willbonde/react-websocket-hooks#readme"
+  "homepage": "https://github.com/willbonde/react-websocket-hooks#readme",
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "copyfiles": "^2.4.1"
+  }
 }
