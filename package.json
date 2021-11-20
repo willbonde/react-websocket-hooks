@@ -2,7 +2,7 @@
   "name": "react-websocket-hooks",
   "version": "0.0.1",
   "description": "React WebSocket Hooks",
-  "main": "index.js",
+  "main": "dist/useWebSocket.js",
   "directories": {
     "test": "tests"
   },
@@ -29,7 +29,9 @@
     "url": "https://github.com/willbonde/react-websocket-hooks/issues"
   },
   "homepage": "https://github.com/willbonde/react-websocket-hooks#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/core": "^7.16.0"
+  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.1"
   },
